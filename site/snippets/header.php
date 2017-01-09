@@ -66,6 +66,36 @@
 	<?php endif ?>
 
 </head>
-<body>
+<body <?php e($page->content()->name() == "project", "class='project-page loaded'"); e($page->isHomepage(), "class='home'") ?>>
 
 <div class="loader"></div>
+
+<header>
+	<div id="site-title" data-target="index">
+		<a href="<?= $site->url() ?>">
+		<img src="<?= url('assets/images/calmos-logo.svg') ?>" onerror="this.src='<?= url('assets/images/calmos-logo.png') ?>'; this.onerror=null;" alt="Atelier Calmos" height="100%" width="auto">
+		</a>
+	</div>
+
+	<?php $projects = $pages->find('work')->children()->visible() ?>
+	<?php if($projects->count() > 0): ?>
+	<nav id="projects">
+		<?php foreach ($projects as $key => $project): ?>
+			<a class="project-item" href="<?= $project->url() ?>" data-title="<?= $project->title()->html() ?>" data-id="<?= tagslug($project->title()) ?>" data-target="project">
+			<span>
+				<?= $project->title()->html() ?>
+				<br><?= $project->subtitle()->html() ?>
+				<br><?= $project->date('Y') ?>
+			</span>
+			</a>
+		<?php endforeach ?>
+	</nav>
+	<?php endif ?>
+	
+	<?php $contact = $pages->find('contact') ?>
+	<div id="contact-link" >
+		<a href="<?= $contact->url() ?>" data-title="<?= $contact->title()->html() ?>" data-target="contact">
+		<h3><?= $contact->title()->html() ?></h3>
+		</a>
+	</div>
+</header>

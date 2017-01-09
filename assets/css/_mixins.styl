@@ -10,7 +10,6 @@ webfont(family, file, hack-chrome-windows = false, weight = 'normal')
 		src url(font-url(file + '.eot?#iefix')) format('embedded-opentype'),
 			url(font-url(file + '.woff')) format('woff'), 
 			url(font-url(file + '.woff2')) format('woff2'), 
-			url(font-url(file + '.ttf')) format('truetype'), 
 			url(font-url(file + '.svg#'+ family)) format('svg')
 		font-weight weight
 		font-style normal
@@ -71,6 +70,13 @@ dead-center(position)
 	top: 50%
 	left: 50%
 	transform: translate(-50%,-50%)
+
+backface()
+	transform(translateZ(0))
+	-webkit-backface-visibility: hidden;
+	-moz-backface-visibility: hidden;
+	-ms-backface-visibility: hidden;
+	-o-backface-visibility: hidden;
 
 flexbox()
 	display -webkit-box

@@ -1,64 +1,35 @@
 <?php
 
-require 'core/oembed.php';
+namespace Kirby\distantnative\oEmbed {
 
-/**
- * oEmbed field method: $page->video()->oembed()
- */
-field::$methods['oembed'] = function($field, $args = array()) {
-  $oembed = new OEmbed($field->value);
+  use Kirby\distantnative\Autoloader;
+  require_once('core/lib/autoloader.php');
 
-  // autoplay setting
-  if((isset($args['autoplay']) and $args['autoplay'] == true) or c::get('oembed.autoplay', false)) {
-    $oembed->autoplay = true;
+  $kirby    = kirby();
+  $language = $kirby->site()->language();
+
+  Autoloader::load([
+    'vendor'         => ['Embed/src/autoloader'],
+    'translations'   => ['en', $language ? $language->code() : null],
+    'core'           => ['core', 'data', 'url', 'html'],
+    'core/lib'       => ['cache', 'thumb'],
+    'core/providers' => ['provider', true],
+  ]);
+
+  include('registry/field-method.php');
+  include('registry/tag.php');
+  include('registry/field.php');
+  include('registry/route.php');
+
+}
+
+
+// ================================================
+//  Global helper
+// ================================================
+
+namespace {
+  function oembed($url, $args = []) {
+    return new Kirby\distantnative\oEmbed\Core($url, $args);
   }
-
-  // custom thumbnail
-  if (isset($args['thumbnail'])) {
-    $oembed->thumb->set($args['thumbnail']);
-  }
-
-  return $oembed->get($args);
-};
-
-
-/**
- * oEmbed Kirbytext tag: (oembed: https://youtube.com/watch?v=wZZ7oFKsKzY)
- */
-kirbytext::$tags['oembed'] = array(
-  'attr' => array(
-      'class',
-      'thumb',
-      'autoplay',
-      'artwork',
-      'visual',
-      'size',
-      'color',
-      'jsapi',
-  ),
-  'html' => function($tag) {
-    $args = array(
-      'class'   => $tag->attr('class', false),
-      'artwork' => $tag->attr('artwork', c::get('oembed.defaults.artwork', 'true')),
-      'visual'  => $tag->attr('visual', c::get('oembed.defaults.visual', 'true')),
-      'size'    => $tag->attr('size', c::get('oembed.defaults.size', 'default')),
-      'jsapi'   => $tag->attr('jsapi', false)
-    );
-
-    $oembed = new OEmbed($tag->attr('oembed'));
-
-    // autoplay setting
-    if($tag->attr('autoplay', c::get('oembed.autoplay', false)) == 'true') {
-      $oembed->autoplay = true;
-    }
-
-    // custom thumbnail
-    if($tag->attr('thumb', false)) {
-      $oembed->thumb->set($tag->file($tag->attr('thumb'))->url());
-    }
-
-    return $oembed->get($args);
-  }
-);
-
-
+}

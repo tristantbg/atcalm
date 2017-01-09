@@ -5,6 +5,7 @@
   "dependencies": {
     "jquery": "~2.1.1",
     "history.js": "latest",
-    "normalize-css": "latest"
+    "normalize-css": "latest",
+    "flickity-bg-lazyload": "^1.0.0"
   }
 }

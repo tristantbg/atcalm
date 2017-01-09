@@ -14,12 +14,15 @@ $secondary ?= #000
 $accent ?= #ff0000
 
 // Metrics
-$padding = 10px
+$padding = 3rem
+$logo = 10rem
+$hover_link_transition = 200ms
 
 // CSS Reset
 global-reset()
 
-webfont('Franklin Gothic', 'franklingothic', true, 'bold')
+webfont('C', 'C', true, 'normal')
+webfont('CBold', 'CBold', true, 'normal')
 
 body,html
 	width 100%
@@ -30,22 +33,49 @@ html
 	font-size 62.5%
 
 body
+	line-height 120%
 	text-rendering optimizeLegibility
 	font-smoothing()
-	font-size 1rem
+	font-family 'C', 'Helvetica', 'Arial', sans-serif
+	font-size 1.4rem
+	overflow-x hidden
 
 p
 	margin-bottom 1em
-	line-height 100%
+	line-height 130%
 
 p:last-child
 	margin-bottom 0
+
+h1
+	font-size 2rem
+	margin-bottom 1.1em
+	
+h3
+	font-size 1.5rem
+	font-family 'CBold'
+
+em
+	font-size 0.8em
+
+img
+	display block
 
 ::selection
 	background $secondary
 	
 ::-moz-selection
 	background $secondary
+
+img.lazyimg, .gallery-cell
+	transition(opacity, 500ms)
+	opacity 0
+
+img.lazyimg.lazyloaded, img.lazyimg.flickity-lazyloaded, .gallery-cell.flickity-bg-lazyloaded
+	opacity 1
+
+.kirby-plugin-oembed--video
+	background-color transparent
 
 *
 	hideselect()
@@ -65,3 +95,235 @@ a, a:hover, a:visited, a:focus
 	background $primary url('../../images/loader.gif') center no-repeat
 	background-size 15px
 	z-index 10000
+
+header
+	span(1)
+	position fixed
+	background $primary
+	bottom 0
+	left 0
+	transition(transform, 600ms)
+	transform(translate3d(0,100%,0))
+	z-index 1000
+	#site-title
+		//transition(all, 300ms)
+		height $logo
+		margin-top (-1 * $logo)
+		padding $padding
+		display block
+		text-align center
+		background $primary
+		cursor pointer
+		a, img
+			display inline-block
+			height 100%
+	nav#projects
+		span(1/2, offset: 1/4)
+		flexbox()
+		justify-content center
+		flex-direction row
+		flex-wrap wrap
+		font-size 1.2rem
+		.project-item
+			width 17.6%
+			text-align center
+			border-top 1px solid
+			border-bottom 1px solid
+			padding 1em 0
+			margin 0 1.5%
+			display block
+			span
+				transition(color, $hover_link_transition)
+		.project-item:hover
+			span
+				color $accent
+		.project-item:first-child
+			margin-left 0
+		.project-item:nth-child(5n)
+			margin-right 0
+		.project-item:nth-child(n+6)
+			margin-top -1px
+	#contact-link
+		span(1)
+		text-align center
+		padding $padding 0
+		a
+			display inline-block
+			transition(color, $hover_link_transition)
+		a:hover
+			color $accent
+
+// header:not(.opened):hover
+// 	#site-title
+// 		height $logo*1.1
+
+header.opened
+	transform(translate3d(0,0%,0))
+
+#projects-overview
+	width 100vw
+	height 'calc(100vh - %s)' % $logo
+	position fixed
+	top 0
+	left 0
+	backface()
+	.flickity-viewport
+		transition(filter, 1s)
+	.flickity-viewport, .flickity-slider
+		width 100%
+		height 100%
+	.gallery-cell
+		width 100%
+		height 100%
+		background-size cover
+		background-position center
+	#mouse-title
+		display none
+		width 50%
+		align()
+		position fixed
+		top -100%
+		left -100%
+		z-index 900
+		text-align center
+		color $primary
+		mix-blend-mode difference
+		//text-shadow 0 0 3px rgba(0,0,0,0.8)
+		font-size 3.5rem
+		span
+			font-size 1.5rem
+			//text-transform uppercase
+			display none
+
+#projects-overview:hover
+	cursor none
+	#mouse-title
+		display block
+
+#content-container
+	transition(all, 1s)
+	opacity 0
+	visibility hidden
+	position relative
+	min-height 100vh
+	background rgba(0,0,0,0.65)
+	z-index 950
+	color $primary
+	backface()
+	.inner
+		transition(opacity, 1s)
+		opacity 0
+		backface()
+		#project-close
+			transition(color, $hover_link_transition)
+			position fixed
+			top 5rem
+			left 50%
+			font-size 2rem
+			margin-left -1.5rem
+			cursor pointer
+			z-index 50
+		#project-close::after
+			content '\002715'
+		#project-close:hover
+			color $accent
+		#project-infos
+			backface()
+			position fixed
+			width 25%
+			top 5rem
+			left 3rem
+			z-index 50
+		#project-content
+			position relative
+			transition(opacity, 1s)
+			transition-delay(500ms)
+			opacity 0
+			width 100%
+			height 100vh
+			padding 9rem 10% ($logo*2) 10%
+			overflow scroll
+			.content
+				padding 0 1rem
+				margin-bottom 4rem
+			.w1.midleft
+				margin-left 8%
+				+below($md)
+					margin-left 0
+			.w1.center
+				margin-left 33%
+				+below($md)
+					margin-left 0
+			.w1.midright
+				margin-left 38%
+				+below($md)
+					margin-left 0
+			.w1.right
+				margin-left 66.66666666667%
+				+below($md)
+					margin-left 0
+			.w2.midleft
+				margin-left 10%
+				+below($md)
+					margin-left 0
+			.w2.center
+				margin-left 25%
+				+below($md)
+					margin-left 0
+			.w2.midright
+				margin-left 40%
+				+below($md)
+					margin-left 0
+			.w2.right
+				margin-left 50%
+				+below($md)
+					margin-left 0
+			.w3.center
+				margin-left 12.5%
+				+below($md)
+					margin-left 0
+			.w3.midright
+				margin-left 25%
+				+below($md)
+					margin-left 0
+			.w3.right
+				margin-left 25%
+				+below($md)
+					margin-left 0
+			.w1
+				width 33%
+			.w2
+				width 50%
+			.w3
+				width 75%
+			.w4
+				width 100%
+			.w1, .w2, .w3, .w4
+				+below($md)
+					width 100%
+
+body.project-page
+	#projects-overview .flickity-viewport
+		vendor(filter, blur(5px))
+	#content-container
+		opacity 1
+		visibility visible
+
+body.project-page.loaded
+	#content-container
+		.inner
+			opacity 1
+		#project-content
+			opacity 1
+
+body.home.hover-left
+	#projects-overview #mouse-title::before
+		content '\2039'
+
+body.home.hover-center
+	#projects-overview #mouse-title span
+		display block
+
+body.home.hover-right
+	#projects-overview #mouse-title::before
+		content '\203A'

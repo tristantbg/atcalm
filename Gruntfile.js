@@ -2,7 +2,7 @@ module.exports = function(grunt) {
     grunt.initConfig({
         concat: {
             plugins: {
-                src: ['assets/oembed/oembed.min.js','lib/history.js/scripts/bundled/html4+html5/jquery.history.js'],
+                src: ['node_modules/flickity/dist/flickity.pkgd.min.js', 'lib/flickity-bg-lazyload/bg-lazyload.js', 'node_modules/lazysizes/lazysizes.min.js', 'node_modules/lazysizes/plugins/optimumx/ls.optimumx.min.js', 'node_modules/gsap/src/minified/TweenMax.min.js', 'site/plugins/oembed/assets/js/oembed.js', 'lib/history.js/scripts/bundled/html4+html5/jquery.history.js'],
                 dest: 'assets/js/plugins.concat.js'
             },
             js: {
@@ -42,7 +42,7 @@ module.exports = function(grunt) {
           },
           target: {
             files: {
-              'assets/css/build/build.min.css': ['lib/normalize-css/normalize.css', 'assets/oembed/oembed.css', 'assets/css/app.min.css']
+              'assets/css/build/build.min.css': ['lib/normalize-css/normalize.css', 'node_modules/flickity/dist/flickity.min.css', 'site/plugins/oembed/assets/css/oembed.css', 'assets/css/app.min.css']
             }
           }
         },
