@@ -58,6 +58,9 @@ h3
 em
 	font-size 0.8em
 
+strong
+	font-family 'CBold'
+
 img
 	display block
 
@@ -68,7 +71,7 @@ img
 	background $secondary
 
 img.lazyimg, .gallery-cell
-	transition(opacity, 500ms)
+	transition(opacity 500ms ease)
 	opacity 0
 
 img.lazyimg.lazyloaded, img.lazyimg.flickity-lazyloaded, .gallery-cell.flickity-bg-lazyloaded
@@ -96,13 +99,15 @@ a, a:hover, a:visited, a:focus
 	background-size 15px
 	z-index 10000
 
+trans = transform 600ms ease, height 1s ease
+
 header
 	span(1)
 	position fixed
 	background $primary
 	bottom 0
 	left 0
-	transition(transform, 600ms)
+	transition(trans)
 	transform(translate3d(0,100%,0))
 	z-index 1000
 	#site-title
@@ -120,6 +125,7 @@ header
 	nav#projects
 		span(1/2, offset: 1/4)
 		flexbox()
+		transition(opacity 800ms ease)
 		justify-content center
 		flex-direction row
 		flex-wrap wrap
@@ -133,7 +139,7 @@ header
 			margin 0 1.5%
 			display block
 			span
-				transition(color, $hover_link_transition)
+				transition(color $hover_link_transition ease)
 		.project-item:hover
 			span
 				color $accent
@@ -145,12 +151,62 @@ header
 			margin-top -1px
 	#contact-link
 		span(1)
+		transition(opacity 800ms ease)
 		text-align center
 		padding $padding 0
 		a
 			display inline-block
-			transition(color, $hover_link_transition)
+			transition(color $hover_link_transition ease)
 		a:hover
+			color $accent
+	#contact-container
+		backface()
+		transition(all 500ms ease)
+		transition-delay(1s)
+		position absolute
+		top 0
+		left 0
+		width 100%
+		height 100%
+		visibility hidden
+		opacity 0
+		.inner
+			padding 3% 7% 0
+		.row
+			span(1)
+			.col
+				col(1/2, cycle:2)
+		#contact-description
+			font-size 4.19vw
+			text-align center
+			margin-bottom 1.5em
+			p
+				line-height 120%
+		#contact-friends
+			padding 3em 0 6em
+			border-top 1px solid
+		#contact-footer
+			flexbox()
+			align-items flex-end
+			#socials
+				font-size 1.5rem
+				font-family 'CBold'
+				a:not(:last-child)::after
+					content ' + '
+			#credits
+				text-align right
+		#page-close
+			transition(color $hover_link_transition ease)
+			position fixed
+			bottom 5rem
+			left 50%
+			font-size 2rem
+			margin-left -1.5rem
+			cursor pointer
+			z-index 50
+		#page-close::after
+			content '\002715'
+		#page-close:hover
 			color $accent
 
 // header:not(.opened):hover
@@ -168,7 +224,7 @@ header.opened
 	left 0
 	backface()
 	.flickity-viewport
-		transition(filter, 1s)
+		transition(filter 1s ease)
 	.flickity-viewport, .flickity-slider
 		width 100%
 		height 100%
@@ -201,7 +257,7 @@ header.opened
 		display block
 
 #content-container
-	transition(all, 1s)
+	transition(all 1s ease)
 	opacity 0
 	visibility hidden
 	position relative
@@ -211,11 +267,11 @@ header.opened
 	color $primary
 	backface()
 	.inner
-		transition(opacity, 1s)
+		transition(opacity 1s ease)
 		opacity 0
 		backface()
-		#project-close
-			transition(color, $hover_link_transition)
+		#page-close
+			transition(color $hover_link_transition ease)
 			position fixed
 			top 5rem
 			left 50%
@@ -223,9 +279,9 @@ header.opened
 			margin-left -1.5rem
 			cursor pointer
 			z-index 50
-		#project-close::after
+		#page-close::after
 			content '\002715'
-		#project-close:hover
+		#page-close:hover
 			color $accent
 		#project-infos
 			backface()
@@ -236,7 +292,7 @@ header.opened
 			z-index 50
 		#project-content
 			position relative
-			transition(opacity, 1s)
+			transition(opacity 1s ease)
 			transition-delay(500ms)
 			opacity 0
 			width 100%
@@ -309,11 +365,23 @@ body.project-page
 		opacity 1
 		visibility visible
 
+body.loading
+	cursor wait
+
 body.project-page.loaded
 	#content-container
 		.inner
 			opacity 1
 		#project-content
+			opacity 1
+
+body.contact-page
+	header
+		height 'calc(100vh - %s)' % $logo
+		nav#projects, #contact-link
+			opacity 0
+		#contact-container
+			visibility visible
 			opacity 1
 
 body.home.hover-left
@@ -327,3 +395,7 @@ body.home.hover-center
 body.home.hover-right
 	#projects-overview #mouse-title::before
 		content '\203A'
+
+body.contact-page
+	header
+		height 'calc(100vh - %s) !important' % $logo

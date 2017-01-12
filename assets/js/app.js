@@ -8,10 +8,13 @@ var width = $(window).width(),
 $(function() {
     var app = {
         init: function() {
-            $(window).resize(function(event) {});
+            $(window).resize(function(event) {
+                app.sizeSet();
+            });
             $(document).ready(function($) {
                 $body = $('body');
                 $header = $('header');
+                app.sizeSet();
                 History.Adapter.bind(window, 'statechange', function() {
                     var State = History.getState();
                     console.log(State);
@@ -22,7 +25,10 @@ $(function() {
                         }
                         $body.attr('class', 'project-page loading');
                         $header.removeClass('opened');
-                        app.loadContent(State.url, $('#content-container'));
+                        app.loadContent(State.url, $('#content-container'), '#content-container .inner');
+                    } else if (content.type == 'contact') {
+                        $body.addClass('contact-page');
+                        app.loadContent(State.url, $('#contact-container'), '#contact-container .inner');
                     } else {
                         app.goIndex();
                     }
@@ -42,8 +48,14 @@ $(function() {
                                 type: 'project'
                             }, $el.data('title') + " | " + $sitetitle, $el.attr('href'));
                         }, timing);
+                    } else if (target == 'contact') {
+                        History.pushState({
+                            type: 'contact'
+                        }, $el.data('title') + " | " + $sitetitle, $el.attr('href'));
                     } else if (target == 'index') {
-                        if ($body.hasClass('contact-page')) {} else if ($el.is('#project-close')) {
+                        if ($body.hasClass('contact-page')) {
+                          app.goIndex();
+                        } else if ($el.is('#page-close')) {
                             app.goIndex();
                         } else {
                             $header.toggleClass('opened');
@@ -60,6 +72,7 @@ $(function() {
                 });
                 app.loadSlider();
                 app.mouseNav();
+                app.parallax();
                 //esc
                 $(document).keyup(function(e) {
                     if (e.keyCode === 27) app.goIndex();
@@ -80,6 +93,8 @@ $(function() {
         sizeSet: function() {
             width = $(window).width();
             height = $(window).height();
+            $header.attr('style', '');
+            $header.height($header.outerHeight(true));
             if (width <= 770 || Modernizr.touch) isMobile = true;
             if (isMobile) {
                 if (width >= 770) {
@@ -177,23 +192,50 @@ $(function() {
             $header.removeClass('opened');
             $body.attr('class', 'home');
             setTimeout(function() {
+                app.sizeSet();
                 $('#content-container').empty();
                 if ($slider) {
                     $slider.flickity('playPlayer');
                 }
             }, 1000);
         },
-        loadContent: function(url, target) {
+        loadContent: function(url, target, container) {
             setTimeout(function() {
                 $body.scrollTop(0);
-                $(target).load(url + ' #content-container .inner', function(response) {
+                $(target).load(url + ' ' + container, function(response) {
                     if (content.type == 'project') {
                         setTimeout(function() {
                             $body.addClass('loaded').removeClass('loading');
+                            app.parallax();
                         }, 100);
                     }
                 });
             }, 1000);
+        },
+        parallax: function() {
+            var $parallaxItems = $(".content-item"); //elements
+            var fixer = 0.0008; //experiment with the value
+            $("#content-container").on("mousemove", function(event) {
+                if (!isMobile) {
+                    var pageX = event.pageX - (width * 0.5); //get the mouseX - negative on left, positive on right
+                    var pageY = event.pageY - (height * 0.5); //same here, get the y. use console.log(pageY) to see the values
+                    //here we move each item
+                    $parallaxItems.each(function() {
+                        var item = $(this);
+                        var speedX = item.data("x");
+                        var speedY = item.data("y");
+                        /*TweenLite.to(item, 0.5, {
+                          x: (item.position().left + pageX * speedX )*fixer,    //calculate the new X based on mouse position * speed 
+                          y: (item.position().top + pageY * speedY)*fixer
+                        });*/
+                        //or use set - not so smooth, but better performance
+                        TweenLite.set(item, {
+                            x: (item.position().left + pageX * speedX) * fixer,
+                            y: (item.position().top + pageY * speedY) * fixer
+                        });
+                    });
+                }
+            });
         },
         deferImages: function() {
             var imgDefer = document.getElementsByTagName('img');

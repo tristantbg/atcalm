@@ -66,11 +66,11 @@
 	<?php endif ?>
 
 </head>
-<body <?php e($page->content()->name() == "project", "class='project-page loaded'"); e($page->isHomepage(), "class='home'") ?>>
+<body <?php e($page->content()->name() == "project", "class='project-page loaded'"); e($page->content()->name() == "contact", "class='contact-page'"); e($page->isHomepage(), "class='home'") ?>>
 
 <div class="loader"></div>
 
-<header>
+<header<?php e($page->content()->name() == "contact", " class='opened'") ?>>
 	<div id="site-title" data-target="index">
 		<a href="<?= $site->url() ?>">
 		<img src="<?= url('assets/images/calmos-logo.svg') ?>" onerror="this.src='<?= url('assets/images/calmos-logo.png') ?>'; this.onerror=null;" alt="Atelier Calmos" height="100%" width="auto">
@@ -97,5 +97,30 @@
 		<a href="<?= $contact->url() ?>" data-title="<?= $contact->title()->html() ?>" data-target="contact">
 		<h3><?= $contact->title()->html() ?></h3>
 		</a>
+	</div>
+
+	<div id="contact-container">
+	<?php if($page->content()->name() == "contact"): ?>
+		<div class="inner">
+			<div id="contact-description">
+				<?= $page->text()->kt() ?>
+			</div>
+			<div id="contact-friends" class="row">
+				<div class="col"><?= $page->left()->kt() ?></div>
+				<div class="col"><?= $page->right()->kt() ?></div>
+			</div>
+			<div id="contact-footer" class="row">
+				<div id="socials" class="col">
+					<?php foreach($site->socials()->yaml() as $social): ?>
+						<a href="<?php echo $social['link'] ?>" target="_blank"><?php echo $social['name'] ?></a>
+					<?php endforeach ?>
+				</div>
+				<div id="credits" class="col">
+					<?= $site->credits()->kt() ?>
+				</div>
+			</div>
+			<div id="page-close" data-target="index"></div>
+		</div>
+	<?php endif ?>
 	</div>
 </header>

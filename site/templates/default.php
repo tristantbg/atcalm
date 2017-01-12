@@ -1,7 +1,7 @@
 <?php snippet('header') ?>
 
-<h1><?php echo $page->title()->html() ?></h1>
+<?php snippet('overview') ?>
 
-<p><?php echo $page->text()->kirbytext() ?></p>
+<div id="content-container"></div>
 
 <?php snippet('footer') ?>
