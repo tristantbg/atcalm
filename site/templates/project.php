@@ -40,7 +40,7 @@
 			  <?php else: ?>
 			  	<div class="content-item video-item w<?= $media->width() ?> <?= $media->position() ?>" 
 			  	<?php if($media->yoffset()->isNotEmpty()){ echo 'style="margin-top:'.$media->yoffset().'vw"'; } ?> 
-			  	data-x="<?php $pos = $media->position(); if ($pos == "left" or $pos == "right") {echo rand(100,130);} elseif($pos == "midleft" or $pos == "midright"){echo rand(40,70);} else {echo rand(20,40);} ?>" 
+			  	data-x="<?= $media->xspeed() ?>" 
 			  	data-y="<?php echo rand(70,100) ?>">
 			  		<?= $media->link()->oembed() ?>
 			  	</div>
