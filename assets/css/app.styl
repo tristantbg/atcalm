@@ -338,9 +338,11 @@ header.opened
 			height 100vh
 			padding 9rem 10% ($logo*2) 10%
 			overflow scroll
-			.content
+			.content-item
 				padding 0 1rem
 				margin-bottom 4rem
+				+below($md)
+					margin-top 0 !important
 			.w1.midleft
 				margin-left 8%
 				+below($md)

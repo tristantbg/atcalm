@@ -39,14 +39,16 @@ fields:
                <td style="width:20%">Image</td>
                <td>Width</td>
                <td>Position</td>
-               <td>Offset</td>
+               <td>X Speed</td>
+               <td>Y Offset</td>
                <td>Caption</td>
                </tr>
                <tr>
                <td style="width:20%"><img src="{{_thumb}}" width="80px"><br>{{content}}</td>
                <td>{{width}}</td>
                <td>{{position}}</td>
-                <td>{{yoffset}}</td>
+               <td>{{xspeed}}</td>
+               <td>{{yoffset}}</td>
                <td>{{caption}}</td>
                </tr>
                </table>
@@ -60,13 +62,13 @@ fields:
             type: number
             min: 1
             max: 4
-            width: 1/3
+            width: 1/2
             required: true
             default: 2
           position:
             label: Position
             type: select
-            width: 1/3
+            width: 1/2
             required: true
             options:
               left : Left
@@ -75,10 +77,17 @@ fields:
               midright : Mid-Right
               right : Right
             default: center
+          xspeed:
+            label: X Speed
+            type: number
+            step: 5
+            min: 0
+            width: 1/2
+            default: 40
           yoffset:
             label: Y Offset
             type: number
-            width: 1/3
+            width: 1/2
             default: 0
           caption:
             label: Caption
@@ -91,14 +100,16 @@ fields:
                <td>URL</td>
                <td>Width</td>
                <td>Position</td>
-               <td>Offset</td>
+               <td>X Speed</td>
+               <td>Y Offset</td>
                <td>Caption</td>
                </tr>
                <tr>
                <td>{{link}}</td>
                <td>{{width}}</td>
                <td>{{position}}</td>
-                <td>{{yoffset}}</td>
+               <td>{{xspeed}}</td>
+               <td>{{yoffset}}</td>
                <td>{{caption}}</td>
                </tr>
                </table>
@@ -112,13 +123,13 @@ fields:
             type: number
             min: 1
             max: 4
-            width: 1/3
+            width: 1/2
             required: true
             default: 2
           position:
             label: Position
             type: select
-            width: 1/3
+            width: 1/2
             required: true
             options:
               left : Left
@@ -127,12 +138,17 @@ fields:
               midright : Mid-Right
               right : Right
             default: center
+          xspeed:
+            label: X Speed
+            type: number
+            step: 5
+            min: 0
+            width: 1/2
+            default: 40
           yoffset:
             label: Y Offset
             type: number
-            min: 0
-            max: 100
-            width: 1/3
+            width: 1/2
             default: 0
           caption:
             label: Caption
