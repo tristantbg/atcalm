@@ -78,9 +78,16 @@
 	</div>
 
 	<?php $projects = $pages->find('work')->children()->visible() ?>
-	<?php if($projects->count() > 0): ?>
-	<nav id="projects">
+	<?php $pcount = $projects->count(); ?>
+	<?php if($pcount > 0):
+	$idx = 0 ?>
+	<nav id="projects" <?php e($pcount > 10, 'class="sliding"') ?>>
 		<?php foreach ($projects as $key => $project): ?>
+			
+			<?php if($idx%10 == 0): ?>
+			<div class="cell">
+			<?php endif ?>
+
 			<a class="project-item" href="<?= $project->url() ?>" data-title="<?= $project->title()->html() ?>" data-id="<?= tagslug($project->title()) ?>" data-target="project">
 			<span>
 				<?= $project->title()->html() ?>
@@ -88,6 +95,15 @@
 				<br><?= $project->date('Y') ?>
 			</span>
 			</a>
+			
+			<?php if($idx%10 == 9): ?>
+			</div>
+			<?php elseif($idx == $pcount - 1): ?>
+			</div>
+			<?php endif ?>
+
+			<?php $idx++ ?>
+
 		<?php endforeach ?>
 	</nav>
 	<?php endif ?>

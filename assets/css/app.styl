@@ -124,31 +124,64 @@ header
 			height 100%
 	nav#projects
 		span(1/2, offset: 1/4)
-		flexbox()
 		transition(opacity 800ms ease)
-		justify-content center
-		flex-direction row
-		flex-wrap wrap
 		font-size 1.2rem
-		.project-item
-			width 17.6%
-			text-align center
-			border-top 1px solid
-			border-bottom 1px solid
-			padding 1em 0
-			margin 0 1.5%
-			display block
-			span
-				transition(color $hover_link_transition ease)
-		.project-item:hover
-			span
-				color $accent
-		.project-item:first-child
-			margin-left 0
-		.project-item:nth-child(5n)
-			margin-right 0
-		.project-item:nth-child(n+6)
-			margin-top -1px
+		+below($md)
+			span(9/10, offset: 0.5/10)
+		.cell
+			width 100%
+			flexbox()
+			justify-content center
+			flex-direction row
+			flex-wrap wrap
+			.project-item
+				width 17.6%
+				text-align center
+				border-top 1px solid
+				border-bottom 1px solid
+				padding 1em 0
+				margin 0 1.5%
+				display block
+				+below($md)
+					width 31%
+				span
+					transition(color $hover_link_transition ease)
+			.project-item:hover
+				span
+					color $accent
+			.project-item:first-child
+				margin-left 0
+			.project-item:nth-child(6n)
+				+above($md + 1)
+					margin-left 0
+			.project-item:nth-child(5n)
+				+above($md + 1)
+					margin-right 0
+			.project-item:nth-child(n+6)
+				+above($md + 1)
+					margin-top -1px
+			.project-item:nth-child(4n)
+				+below($md)
+					margin-left 0
+			.project-item:nth-child(3n)
+				+below($md)
+					margin-right 0
+			.project-item:nth-child(n+3)
+				+below($md)
+					margin-top -1px
+		.flickity-page-dots
+			+above($md + 1)
+				width auto
+				bottom initial
+				align(vertical)
+				right -30px
+			.dot
+				width 6px
+				height 6px
+				margin 0 4px
+				+above($md + 1)
+					display block
+					margin 4px 0
 	#contact-link
 		span(1)
 		transition(opacity 800ms ease)
@@ -170,6 +203,12 @@ header
 		height 100%
 		visibility hidden
 		opacity 0
+		a
+			transition(color $hover_link_transition ease)
+		a:hover
+			color $accent
+		a:hover::after
+			color $secondary
 		.inner
 			padding 3% 7% 0
 		.row
@@ -177,7 +216,7 @@ header
 			.col
 				col(1/2, cycle:2)
 		#contact-description
-			font-size 4.19vw
+			font-size 4.17vw
 			text-align center
 			margin-bottom 1.5em
 			p

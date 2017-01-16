@@ -33,7 +33,7 @@ $(function() {
                         app.goIndex();
                     }
                 });
-                $body.on('click', '[data-target]', function(event) {
+                $body.on('click', '[data-target]:not(".gallery-cell")', function(event) {
                     event.preventDefault();
                     var $el = $(this);
                     var target = $el.data('target');
@@ -54,7 +54,7 @@ $(function() {
                         }, $el.data('title') + " | " + $sitetitle, $el.attr('href'));
                     } else if (target == 'index') {
                         if ($body.hasClass('contact-page')) {
-                          app.goIndex();
+                            app.goIndex();
                         } else if ($el.is('#page-close')) {
                             app.goIndex();
                         } else {
@@ -63,16 +63,12 @@ $(function() {
                     }
                 });
                 $body.on('click', '.kirby-plugin-oembed__thumb', function(event) {
-                    console.log('ok');
                     event.preventDefault();
                     var wrapper = $(this).parent();
                     var embed = wrapper.find('iframe');
                     embed.attr('src', embed.data('src'));
                     $(this).remove();
                 });
-                app.loadSlider();
-                app.mouseNav();
-                app.parallax();
                 //esc
                 $(document).keyup(function(e) {
                     if (e.keyCode === 27) app.goIndex();
@@ -86,6 +82,9 @@ $(function() {
                     if (e.keyCode === 39 && $slider) app.goNext($slider);
                 });
                 $(window).load(function() {
+                    app.loadSlider();
+                    app.mouseNav();
+                    app.parallax();
                     $(".loader").fadeOut("fast");
                 });
             });
@@ -129,7 +128,7 @@ $(function() {
                 lazyLoad: 1,
                 bgLazyLoad: 1,
                 setGallerySize: false,
-                autoPlay: 2500,
+                autoPlay: 5000,
                 //percentPosition: false,
                 // selectedAttraction: 0.03,
                 // friction: 0.5,
@@ -153,10 +152,7 @@ $(function() {
                 if (!cellElement) {
                     return;
                 }
-                app.goNext($slider);
-            });
-            $slider.click(function(event) {
-                if (!isMobile) {
+                if (isMobile) {
                     if ($body.hasClass('hover-left')) {
                         app.goPrev($slider);
                     } else if ($body.hasClass('hover-right')) {
@@ -169,6 +165,29 @@ $(function() {
                     }
                 }
             });
+            $slider.click(function(event) {
+                if (!isMobile) {
+                  event.preventDefault();
+                    if ($body.hasClass('hover-left')) {
+                        app.goPrev($slider);
+                    } else if ($body.hasClass('hover-right')) {
+                        app.goNext($slider);
+                    } else {
+                        var $el = $(flkty.selectedElement);
+                        History.pushState({
+                            type: 'project'
+                        }, $el.data('title') + " | " + $sitetitle, $el.attr('href'));
+                    }
+                }
+            });
+            $nav = $('nav#projects.sliding').flickity({
+                cellSelector: '.cell',
+                //percentPosition: false,
+                // selectedAttraction: 0.03,
+                // friction: 0.5,
+                accessibility: false,
+                prevNextButtons: false
+            });
 
             function selectProject() {
                 if (flkty) {
@@ -180,10 +199,14 @@ $(function() {
             }
         },
         goNext: function($slider) {
-            $slider.flickity('next', false);
+            if (!$body.hasClass('project-page')) {
+                $slider.flickity('next', false);
+            }
         },
         goPrev: function($slider) {
-            $slider.flickity('previous', false);
+            if (!$body.hasClass('project-page')) {
+                $slider.flickity('previous', false);
+            }
         },
         goIndex: function() {
             History.pushState({
