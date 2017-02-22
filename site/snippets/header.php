@@ -81,10 +81,10 @@
 	<?php $pcount = $projects->count(); ?>
 	<?php if($pcount > 0):
 	$idx = 0 ?>
-	<nav id="projects" <?php e($pcount > 10, 'class="sliding"') ?>>
+	<nav id="projects" <?php e($pcount > 15, 'class="sliding"') ?>>
 		<?php foreach ($projects as $key => $project): ?>
 			
-			<?php if($idx%10 == 0): ?>
+			<?php if($idx%15 == 0): ?>
 			<div class="cell">
 			<?php endif ?>
 
@@ -96,7 +96,7 @@
 			</span>
 			</a>
 			
-			<?php if($idx%10 == 9): ?>
+			<?php if($idx%15 == 14): ?>
 			</div>
 			<?php elseif($idx == $pcount - 1): ?>
 			</div>

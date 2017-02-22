@@ -15,7 +15,8 @@ $accent ?= #ff0000
 
 // Metrics
 $padding = 3rem
-$logo = 10rem
+$logo = 11rem
+$logomobile = 8rem
 $hover_link_transition = 200ms
 
 // CSS Reset
@@ -39,6 +40,8 @@ body
 	font-family 'C', 'Helvetica', 'Arial', sans-serif
 	font-size 1.4rem
 	overflow-x hidden
+	+below($sm)
+		font-size 1.2rem
 
 p
 	margin-bottom 1em
@@ -48,15 +51,15 @@ p:last-child
 	margin-bottom 0
 
 h1
-	font-size 2rem
+	font-size 2.3rem
 	margin-bottom 1.1em
+	line-height 100%
+	+below($sm)
+		font-size 1.8rem
 	
 h3
 	font-size 1.5rem
 	font-family 'CBold'
-
-em
-	font-size 0.8em
 
 strong
 	font-family 'CBold'
@@ -119,6 +122,10 @@ header
 		text-align center
 		background $primary
 		cursor pointer
+		+below($sm)
+			padding ($padding - 1)
+			height $logomobile
+			margin-top (-1 * $logomobile)
 		a, img
 			display inline-block
 			height 100%
@@ -126,51 +133,48 @@ header
 		span(1/2, offset: 1/4)
 		transition(opacity 800ms ease)
 		font-size 1.2rem
-		+below($md)
+		+below($sm)
 			span(9/10, offset: 0.5/10)
 		.cell
 			width 100%
-			flexbox()
-			justify-content center
-			flex-direction row
-			flex-wrap wrap
+			text-align center
 			.project-item
 				width 17.6%
 				text-align center
 				border-top 1px solid
 				border-bottom 1px solid
+				margin 0 1%
 				padding 1em 0
-				margin 0 1.5%
-				display block
-				+below($md)
+				display inline-block
+				+below($sm)
 					width 31%
 				span
 					transition(color $hover_link_transition ease)
 			.project-item:hover
 				span
 					color $accent
-			.project-item:first-child
-				margin-left 0
-			.project-item:nth-child(6n)
-				+above($md + 1)
+			.project-item:last-child
+				margin-right 0
+			.project-item:nth-child(5n+1)
+				+above($sm + 1)
 					margin-left 0
 			.project-item:nth-child(5n)
-				+above($md + 1)
+				+above($sm + 1)
 					margin-right 0
 			.project-item:nth-child(n+6)
-				+above($md + 1)
+				+above($sm + 1)
 					margin-top -1px
-			.project-item:nth-child(4n)
-				+below($md)
+			.project-item:nth-child(3n+1)
+				+below($sm)
 					margin-left 0
 			.project-item:nth-child(3n)
-				+below($md)
+				+below($sm)
 					margin-right 0
-			.project-item:nth-child(n+3)
-				+below($md)
+			.project-item:nth-child(n+4)
+				+below($sm)
 					margin-top -1px
 		.flickity-page-dots
-			+above($md + 1)
+			+above($sm + 1)
 				width auto
 				bottom initial
 				align(vertical)
@@ -179,7 +183,8 @@ header
 				width 6px
 				height 6px
 				margin 0 4px
-				+above($md + 1)
+				background $secondary
+				+above($sm + 1)
 					display block
 					margin 4px 0
 	#contact-link
@@ -215,25 +220,45 @@ header
 			span(1)
 			.col
 				col(1/2, cycle:2)
+				+below($sm)
+					stack()
+					margin-bottom 2rem
 		#contact-description
-			font-size 4.17vw
+			font-size 4.2vw
 			text-align center
 			margin-bottom 1.5em
+			white-space nowrap
 			p
 				line-height 120%
+				margin-bottom 0
 		#contact-friends
 			padding 3em 0 6em
 			border-top 1px solid
+			+below($sm)
+				font-size 3.7vw
 		#contact-footer
 			flexbox()
 			align-items flex-end
+			position absolute
+			width 86%
+			bottom 5rem
+			left 7%
+			+below($sm)
+				bottom 4rem
 			#socials
 				font-size 1.5rem
 				font-family 'CBold'
 				a:not(:last-child)::after
-					content ' + '
+					+above($sm + 1)
+						content ' + '
+				a
+					+below($sm)
+						display block
+						width 100%
+						line-height 110%
 			#credits
 				text-align right
+				font-size .8em
 		#page-close
 			transition(color $hover_link_transition ease)
 			position fixed
@@ -243,6 +268,8 @@ header
 			margin-left -1.5rem
 			cursor pointer
 			z-index 50
+			+below($sm)
+				bottom 2rem
 		#page-close::after
 			content '\002715'
 		#page-close:hover
@@ -262,6 +289,8 @@ header.opened
 	top 0
 	left 0
 	backface()
+	+below($sm)
+		height 'calc(100vh - %s)' % $logomobile
 	.flickity-viewport
 		transition(filter 1s ease)
 	.flickity-viewport, .flickity-slider
@@ -318,17 +347,28 @@ header.opened
 			margin-left -1.5rem
 			cursor pointer
 			z-index 50
+			+below($sm)
+				top 3rem
 		#page-close::after
 			content '\002715'
 		#page-close:hover
 			color $accent
 		#project-infos
-			backface()
-			position fixed
-			width 25%
-			top 5rem
-			left 3rem
-			z-index 50
+			margin-bottom 4rem
+			+above($sm + 1)
+				backface()
+				position fixed
+				width 25%
+				top 5rem
+				left 3rem
+				z-index 50
+			a
+				transition(color $hover_link_transition ease)
+			a:hover
+				color $accent
+			#project-credits
+				+above($sm + 1)
+					font-size 0.8em
 		#project-content
 			position relative
 			transition(opacity 1s ease)
@@ -338,54 +378,59 @@ header.opened
 			height 100vh
 			padding 9rem 10% ($logo*2) 10%
 			overflow scroll
+			-webkit-overflow-scrolling touch
+			+below($sm)
+				padding 8rem 2rem $logomobile 2rem
 			.content-item
 				padding 0 1rem
 				margin-bottom 4rem
-				+below($md)
+				+below($sm)
+					padding 0
 					margin-top 0 !important
+					transform(none !important)
 			.w1.midleft
 				margin-left 8%
-				+below($md)
+				+below($sm)
 					margin-left 0
 			.w1.center
 				margin-left 33%
-				+below($md)
+				+below($sm)
 					margin-left 0
 			.w1.midright
 				margin-left 38%
-				+below($md)
+				+below($sm)
 					margin-left 0
 			.w1.right
 				margin-left 66.66666666667%
-				+below($md)
+				+below($sm)
 					margin-left 0
 			.w2.midleft
 				margin-left 10%
-				+below($md)
+				+below($sm)
 					margin-left 0
 			.w2.center
 				margin-left 25%
-				+below($md)
+				+below($sm)
 					margin-left 0
 			.w2.midright
 				margin-left 40%
-				+below($md)
+				+below($sm)
 					margin-left 0
 			.w2.right
 				margin-left 50%
-				+below($md)
+				+below($sm)
 					margin-left 0
 			.w3.center
 				margin-left 12.5%
-				+below($md)
+				+below($sm)
 					margin-left 0
 			.w3.midright
 				margin-left 25%
-				+below($md)
+				+below($sm)
 					margin-left 0
 			.w3.right
 				margin-left 25%
-				+below($md)
+				+below($sm)
 					margin-left 0
 			.w1
 				width 33%
@@ -396,8 +441,14 @@ header.opened
 			.w4
 				width 100%
 			.w1, .w2, .w3, .w4
-				+below($md)
+				+below($sm)
 					width 100%
+			.col
+				col(1/2, cycle:2)
+				+below($sm)
+					stack()
+					margin-bottom 4rem
+				
 
 body.project-page
 	#projects-overview .flickity-viewport
@@ -419,11 +470,17 @@ body.project-page.loaded
 body.contact-page
 	header
 		height 'calc(100vh - %s)' % $logo
+		+below($sm)
+			height 'calc(100vh - %s)' % $logomobile
 		nav#projects, #contact-link
 			opacity 0
 		#contact-container
 			visibility visible
 			opacity 1
+
+body.contact-page.loading
+	#contact-description p, #contact-friends, #contact-footer
+		opacity 0
 
 body.home.hover-left
 	#projects-overview #mouse-title::before
@@ -440,3 +497,5 @@ body.home.hover-right
 body.contact-page
 	header
 		height 'calc(100vh - %s) !important' % $logo
+		+below($sm)
+			height 'calc(100vh - %s) !important' % $logomobile
