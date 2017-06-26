@@ -68,6 +68,13 @@
 </head>
 <body <?php e($page->content()->name() == "project", "class='project-page loaded'"); e($page->content()->name() == "contact", "class='contact-page'"); e($page->isHomepage(), "class='home'") ?>>
 
+<div id="outdated">
+	<div class="inner">
+	<p class="browserupgrade">You are using an <strong>outdated</strong> browser.
+	<br>Please <a href="http://outdatedbrowser.com" target="_blank">upgrade your browser</a> to improve your experience.</p>
+	</div>
+</div>
+
 <div class="loader"></div>
 
 <header<?php e($page->content()->name() == "contact", " class='opened'") ?>>

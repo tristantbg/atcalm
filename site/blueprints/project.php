@@ -177,6 +177,12 @@ fields:
             label: Y Offset
             type: number
             default: 0
+            width: 1/2
+          yoffset2:
+            label: Y Offset 2
+            type: number
+            default: 0
+            width: 1/2
           caption:
             label: Caption
             type: text

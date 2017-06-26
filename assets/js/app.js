@@ -4,7 +4,7 @@ var width = $(window).width(),
     isMobile = false,
     content,
     $slider,
-    $root = '/new';
+    $root = '/';
 $(function() {
     var app = {
         init: function() {
@@ -14,7 +14,6 @@ $(function() {
             $(document).ready(function($) {
                 $body = $('body');
                 $header = $('header');
-                app.sizeSet();
                 History.Adapter.bind(window, 'statechange', function() {
                     var State = History.getState();
                     console.log(State);
@@ -83,6 +82,7 @@ $(function() {
                     if (e.keyCode === 39 && $slider) app.goNext($slider);
                 });
                 $(window).load(function() {
+                    app.sizeSet();
                     app.loadSlider();
                     app.mouseNav();
                     app.parallax();
@@ -225,7 +225,7 @@ $(function() {
         },
         loadContent: function(url, target, container) {
             setTimeout(function() {
-                $body.scrollTop(0);
+                $(window).scrollTop(0);
                 $(target).load(url + ' ' + container, function(response) {
                     if (content.type == 'project') {
                         setTimeout(function() {
@@ -253,7 +253,7 @@ $(function() {
             }, 1000);
         },
         parallax: function() {
-            var $parallaxItems = $(".content-item"); //elements
+            var $parallaxItems = $(".float"); //elements
             var fixer = 0.0008; //experiment with the value
             $("#content-container").on("mousemove", function(event) {
                 if (!isMobile) {
