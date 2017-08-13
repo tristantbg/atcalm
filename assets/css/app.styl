@@ -393,11 +393,14 @@ header.opened
 				&::after
 					content ''
 					position absolute
-					width 130%
+					width calc(100% + 20rem)
 					height 2px
-					left -15%
+					left -10rem
 					bottom -1em
 					background $primary
+					+below($sm)
+						width calc(100% + 4rem)
+						left -2rem
 			a
 				transition(color $hover_link_transition ease)
 			a:hover
@@ -412,11 +415,11 @@ header.opened
 			opacity 0
 			width 100%
 			height 100vh
-			padding 9rem 10% ($logo*2) 10%
-			overflow scroll
+			padding 9rem 10rem ($logo*2)
+			overflow-y scroll
 			-webkit-overflow-scrolling touch
 			+below($sm)
-				padding 8rem 2rem $logomobile 2rem
+				padding 12rem 2rem $logomobile
 			.content-item
 				span(1)
 				padding 0 1rem
@@ -485,6 +488,9 @@ header.opened
 				+below($sm)
 					stack()
 					margin-bottom 4rem
+					padding 0
+					margin-top 0 !important
+					transform(none !important)
 				
 
 body.project-page
